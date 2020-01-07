@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="app">
+    <input v-model="input" type="text" placeholder="Type a skill here"/>
+    <div>
+        <ul>
+            <li v-for="skill in skills">{{ skill }}</li>
+        </ul>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var app = new Vue({
+          el: '#app',
+          data: {
+            input: '',
+            skills: []
+          },
+          methods: {
+            getSkills: function() {
+                axios.get("@Url.Action("GetSkills")" + "?input=" + this.input)
+                    .then(res => this.skills = res.data)
+            }  
+          },
+          watch: {
+            input: function () {
+                this.getSkills();
+            }  
+          }
+        })
+    </script>
+}
