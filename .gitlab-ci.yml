@@ -1,0 +1,41 @@
+﻿variables:
+  DOTNET_IMAGE: mcr.microsoft.com/dotnet/core/sdk
+  NAME: registry.amarislab.com:5443/amarislab/SkillSearch:latest
+  WEB_SERVICE_NAME: skill_search
+
+stages:
+  - publish
+  - deploy
+
+
+##########
+# PUBLISH #
+##########
+
+Publish Skill Search:
+  stage: publish
+  tags:
+    - docker
+  script:
+    - docker build -t $NAME .
+    - docker push $NAME
+
+##########
+# DEPLOY #
+##########
+
+deploy:
+  stage: deploy
+  tags:
+    - wehave
+  script:
+    - docker kill $WEB_SERVICE_NAME || true
+    - docker rm $WEB_SERVICE_NAME || true
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.amarislab.com:5443
+    - docker pull $NAME
+    - docker run -d -p 5001:5001 --restart unless-stopped --name $WEB_SERVICE_NAME $NAME
+  environment:
+    name: sacha
+    url: http://51.83.43.142:5001
+
+  when: manual

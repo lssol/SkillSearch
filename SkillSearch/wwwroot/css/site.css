@@ -69,3 +69,16 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.alias {
+  color: #0c5460;
+  font-size: 70%;
+}
+
+.search {
+  margin-bottom: 50px;
+}
+
+h5 {
+  text-align: center;
+}

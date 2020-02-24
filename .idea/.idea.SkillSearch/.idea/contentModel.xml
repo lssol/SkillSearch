@@ -109,6 +109,7 @@
       </e>
       <e p="SkillSearch.sln" t="IncludeFlat" />
     </e>
+    <e p="C:\Users\sacha\.Rider2019.2\config\consoles\graphdb-parameters" t="IncludeRecursive" />
     <e p="C:\Users\sacha\.Rider2019.2\config\scratches" t="IncludeRecursive" />
     <e p="C:\Users\sacha\.Rider2019.2\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\sacha\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_SkillSearch.-1063498701.00" t="ExcludeRecursive" />

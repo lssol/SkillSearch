@@ -7,17 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SkillSearch.Models;
 using SkillSearch.Repository;
+using Index = SkillSearch.Repository.Index;
 
 namespace SkillSearch.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private ElsRepo _repo;
+        private          ElsRepo                 _repo;
 
         public HomeController(ILogger<HomeController> logger, ElsRepo repo)
         {
-            _repo = repo;
+            _repo   = repo;
             _logger = logger;
         }
 
@@ -28,9 +29,17 @@ namespace SkillSearch.Controllers
 
         public IActionResult GetSkills(string input)
         {
-            return Json(_repo.GetSkills(input).Select(d => d.Label));
+            var smart = _repo.GetSkills(input, Repository.Index.Smart);
+            var dedup = _repo.GetSkills(input, Repository.Index.Dedup);
+            var wiki = _repo.GetSkills(input, Repository.Index.Wiki);
+            return Json(new
+            {
+                Smart = smart,
+                Dedup = dedup,
+                Wiki  = wiki,
+            });
         }
-        
+
         public IActionResult Privacy()
         {
             return View();

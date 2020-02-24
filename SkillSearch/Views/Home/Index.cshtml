@@ -3,11 +3,30 @@
 }
 
 <div id="app">
-    <input v-model="input" type="text" placeholder="Type a skill here"/>
-    <div>
-        <ul>
-            <li v-for="skill in skills">{{ skill }}</li>
-        </ul>
+    <div class="search text-center">
+        <input v-model="input" type="text" placeholder="Type a skill here"/>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h5>Smart</h5>
+            <div v-for="skill in skillsSmart">
+                {{ skill.label }} <br/>
+            </div>
+        </div>
+        <div class="col">
+            <h5>Deduplicated Smart</h5>
+            <div v-for="skill in skillsDedup">
+                {{ skill.label }} <br/>
+                <span class="alias" v-for="alias in skill.alias">{{alias}} </span>
+            </div>
+        </div>
+        <div class="col">
+            <h5>Wikipedia</h5>
+            <div v-for="skill in skillsWiki">
+                {{ skill.label }} <br/>
+                <span class="alias" v-for="alias in skill.alias">{{alias}} </span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -18,12 +37,18 @@
           el: '#app',
           data: {
             input: '',
-            skills: []
+            skillsSmart: [],
+            skillsDedup: [],
+            skillsWiki: [],
           },
           methods: {
             getSkills: function() {
                 axios.get("@Url.Action("GetSkills")" + "?input=" + this.input)
-                    .then(res => this.skills = res.data)
+                    .then(res => {
+                        this.skillsSmart = res.data.smart,
+                        this.skillsDedup = res.data.dedup,
+                        this.skillsWiki = res.data.wiki
+                    })
             }  
           },
           watch: {
